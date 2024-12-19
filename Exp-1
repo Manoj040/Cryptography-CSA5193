@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <string.h>
+
+void encrypt(char* text, int shift, char* encryptedText) {
+    int len = strlen(text);
+    for (int i = 0; i < len; i++) {
+        char c = text[i];
+        if (c >= 'a' && c <= 'z') {
+            c = (char)((c - 'a' + shift + 26) % 26 + 'a');
+        } else if (c >= 'A' && c <= 'Z') {
+            c = (char)((c - 'A' + shift + 26) % 26 + 'A');
+        }
+        encryptedText[i] = c;
+    }
+    encryptedText[len] = '\0'; 
+}
+
+void decrypt(char* encryptedText, int shift, char* decryptedText) {
+    encrypt(encryptedText, -shift, decryptedText);
+}
+
+int main() {
+    char text[100], encryptedText[100], decryptedText[100];
+    int shift;
+
+    printf("Enter the plain text: ");
+    scanf("%[^\n]%*c", text); 
+
+    printf("Enter key value: ");
+    scanf("%d", &shift);
+
+    encrypt(text, shift, encryptedText);
+    printf("Encrypted text: %s\n", encryptedText);
+
+    decrypt(encryptedText, shift, decryptedText);
+    printf("Decrypted text: %s\n", decryptedText);
+
+    return 0;
+}
